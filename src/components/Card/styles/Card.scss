@@ -1,0 +1,368 @@
+.card-container {
+  & {
+    margin: 0 auto -130px;
+  }
+
+  .card-item {
+    max-width: 430px;
+    height: 270px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    z-index: 2;
+    width: 100%;
+
+    &.-flipped {
+      .card-side.-front {
+        transform: perspective(1000px) rotateY(180deg) rotateX(0deg) rotateZ(0deg);
+      }
+      .card-side.-back {
+        transform: perspective(1000px) rotateY(0) rotateX(0deg) rotateZ(0deg);
+      }
+    }
+
+    .card-side {
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px 0 rgba(14, 42, 90, 0.55);
+      transform: perspective(2000px) rotateY(0deg) rotateX(0deg) rotate(0deg);
+      transform-style: preserve-3d;
+      transition: all 0.8s cubic-bezier(0.71, 0.03, 0.56, 0.85);
+      backface-visibility: hidden;
+      height: 100%;
+
+      &.-back {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        transform: perspective(2000px) rotateY(-180deg) rotateX(0deg) rotate(0deg);
+        z-index: 2;
+        padding: 0;
+        height: 100%;
+      }
+
+      .focus-element {
+        position: absolute;
+        z-index: 3;
+        border-radius: 5px;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        transition: all 0.35s cubic-bezier(0.71, 0.03, 0.56, 0.85);
+        opacity: 0;
+        pointer-events: none;
+        overflow: hidden;
+        border: 2px solid rgba(255, 255, 255, 0.65);
+
+        &.-active {
+          opacity: 1;
+        }
+
+        &:before {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          background: #08142f;
+          height: 100%;
+          border-radius: 5px;
+          filter: blur(25px);
+          opacity: 0.5;
+        }
+      }
+    }
+
+    .card-type {
+      height: 45px;
+      position: relative;
+      display: flex;
+      justify-content: flex-end;
+      max-width: 100px;
+      margin-left: auto;
+      width: 100%;
+
+      .card-type-img {
+        max-width: 100%;
+        object-fit: contain;
+        max-height: 100%;
+        object-position: top right;
+
+        &.-leave {
+          animation: 0.25s ease-in-out vertical-remove;
+          position: absolute;
+          opacity: 0;
+        }
+
+        &.-append {
+          opacity: 0;
+          animation: 0.25s ease-in-out 0.1s vertical-append;
+        }
+      }
+    }
+
+    .card-cover {
+      height: 100%;
+      background-color: #1c1d27;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      border-radius: 15px;
+      overflow: hidden;
+      .background {
+        max-width: 100%;
+        display: block;
+        max-height: 100%;
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(6, 2, 29, 0.45);
+      }
+    }
+
+    .card-wrapper {
+      font-family: "Source Code Pro", monospace;
+      padding: 25px 15px;
+      position: relative;
+      z-index: 4;
+      height: 100%;
+      text-shadow: 7px 6px 10px rgba(14, 42, 90, 0.8);
+      user-select: none;
+
+      .card-top {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        margin-bottom: 40px;
+        padding: 0 10px;
+
+        .chip {
+          width: 60px;
+        }
+      }
+
+      .card-number {
+        font-weight: 500;
+        line-height: 1;
+        color: #fff;
+        font-size: 27px;
+        margin-bottom: 35px;
+        display: inline-block;
+        padding: 10px 15px;
+        cursor: pointer;
+      }
+
+      .card-bottom {
+        color: #fff;
+        display: flex;
+        align-items: flex-start;
+
+        .card-name-info {
+          color: #fff;
+          width: 100%;
+          max-width: calc(100% - 85px);
+          padding: 10px 15px;
+          font-weight: 500;
+          display: block;
+          cursor: pointer;
+
+          .holder {
+            opacity: 0.7;
+            font-size: 13px;
+            margin-bottom: 6px;
+          }
+
+          .name {
+            font-size: 18px;
+            line-height: 1;
+            white-space: nowrap;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-transform: uppercase;
+
+            &.-placeholder-append {
+              opacity: 0;
+              animation: 0.25s ease-in-out vertical-append;
+            }
+
+            &.-placeholder-leave {
+              animation: 0.25s ease-in-out vertical-remove;
+              opacity: 0;
+            }
+
+            .cardholder-symbol {
+              display: inline-block;
+
+              &.-append {
+                animation: 0.25s ease-in-out horizontal-append;
+              }
+
+              &.-leave-symbol {
+                animation: 0.25s ease-in-out horizontal-remove;
+              }
+
+              &.-separator {
+                width: 15px;
+              }
+            }
+          }
+        }
+
+        .card-date {
+          flex-wrap: wrap;
+          font-size: 18px;
+          margin-left: auto;
+          padding: 10px;
+          display: inline-flex;
+          width: 80px;
+          white-space: nowrap;
+          flex-shrink: 0;
+          cursor: pointer;
+
+          .date-label {
+            opacity: 0.7;
+            font-size: 13px;
+            margin-bottom: 0;
+            width: 100%;
+            line-height: 18px;
+          }
+
+          .date-item {
+            position: relative;
+            margin: 0;
+
+            .-leave {
+              animation: 0.25s ease-in-out vertical-remove;
+              position: absolute;
+              opacity: 0;
+            }
+
+            .-append {
+              animation: 0.25s ease-in-out 0.1s vertical-append;
+              opacity: 0;
+            }
+          }
+        }
+      }
+
+      .number-item {
+        opacity: 1;
+        width: 16px;
+        display: inline-block;
+
+        &.-separator {
+          width: 30px;
+        }
+
+        &.-leave {
+          animation: 0.25s ease-in-out vertical-remove;
+          position: absolute;
+          opacity: 0;
+        }
+
+        &.-append {
+          opacity: 0;
+          animation: 0.25s ease-in-out 0.1s vertical-append;
+        }
+      }
+    }
+
+    .card-band {
+      background: rgba(0, 0, 19, 0.8);
+      width: 100%;
+      height: 50px;
+      margin-top: 30px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .card-cvv {
+      text-align: right;
+      position: relative;
+      z-index: 2;
+      padding: 15px;
+
+      .cvv-title {
+        padding-right: 10px;
+        font-size: 15px;
+        font-weight: 500;
+        color: #fff;
+        margin-bottom: 5px;
+      }
+
+      .cvv-band {
+        height: 45px;
+        background: #fff;
+        margin-bottom: 30px;
+        text-align: right;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding-right: 10px;
+        color: #1a3b5d;
+        font-size: 18px;
+        border-radius: 4px;
+        box-shadow: 0px 10px 20px -7px rgba(32, 56, 117, 0.35);
+      }
+    }
+  }
+}
+
+@keyframes vertical-append {
+  from {
+      transform: translateY(15px);
+      opacity: 0;
+  }
+
+  to {
+        transform: translateY(0);
+        opacity: 1;
+  }
+}
+
+@keyframes vertical-remove {
+  from {
+      opacity: 1;
+  }
+  to  {
+      transform: translateY(-15px);
+      opacity: 0;
+  }
+}
+
+@keyframes horizontal-append {
+  from {
+    transform: translateX(15px) rotate(30deg);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0) rotate(0);
+    opacity: 1;
+  }
+}
+
+@keyframes horizontal-remove {
+  from {
+    transform: translateX(0) rotate(0);
+    opacity: 1;
+  }
+
+  to {
+    transform: translateX(15px) rotate(30deg);
+    opacity: 0;
+  }
+}
