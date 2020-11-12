@@ -1,6 +1,8 @@
-import React from "react";
+import React, {lazy, Suspense} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {updateCardType} from "../../store/actions/cardActions";
+
+const Image = lazy(() => import('./Image'));
 
 export function CardTypeImage() {
     const {current, previous} = useSelector(state => state.card.cardType);
@@ -14,13 +16,15 @@ export function CardTypeImage() {
         }
     }
     return (
-        <div className="card-type" onAnimationEnd={animationEndHandler}>
-            {
-                previous
-                    ? <img src={require(`../../assets/${previous}.png`)} className='card-type-img -leave'/>
-                    : null
-            }
-            <img src={require(`../../assets/${current}.png`)} className={classes}/>
-        </div>
+        <Suspense fallback={<div>loading...</div>}>
+            <div className="card-type" onAnimationEnd={animationEndHandler}>
+                {
+                    previous
+                        ? <Image type={previous} classes={'card-type-img -leave'}/>
+                        : null
+                }
+                <Image type={current} classes={classes}/>
+            </div>
+        </Suspense>
     )
 }
